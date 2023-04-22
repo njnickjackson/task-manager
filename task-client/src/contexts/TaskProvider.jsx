@@ -32,9 +32,9 @@ export const TaskProvider = (props) => {
         );
     }
 
-    function editTask(task) {
+    function editTask(id, task) {
 
-        return axios.put(`${baseUrl}${task._id}`, task)
+        return axios.put(`${baseUrl}${id}`, task)
         .then(response => {
           getAllTasks();
           return new Promise((resolve) => resolve(response.data));

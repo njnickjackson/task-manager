@@ -5,27 +5,74 @@ import { IonCheckbox, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSl
 import { trash } from 'ionicons/icons';
 
 const TaskList: React.FC = () => {
+    let { deleteTask, editTask } = useContext(TaskContext);
+
+    const taskComplete = (task) => {
+        editTask(task._id, {title: task.title, completed: true})
+        .catch(error => console.log(error));
+    }
+
+    const taskIncomplete = (task) => {
+        editTask(task._id, {title: task.title, completed: false})
+        .catch(error => console.log(error));
+    }
+
+    const slideDelete = (id) => {
+        deleteTask(id)
+        .catch(error => console.log(error));
+    }
+
     return (
-        <div>
-            <TaskContext.Consumer>
+    <div>
+        <TaskContext.Consumer>
+            {({tasks}) => {
+                return (
+                    <IonList>
+                        <IonListHeader color='warning'>
+                            <IonLabel color='light'>
+                                Incomplete
+                            </IonLabel>
+                        </IonListHeader>
+                        {tasks.map(task => {
+                            if (!task.completed) {
+                                return (
+                                    <IonItemSliding key={task._id}>
+                                        <IonItem>
+                                            <IonLabel>{task.title}</IonLabel>
+                                            <IonCheckbox onIonChange={() => taskComplete(task)} aria-label='Label' slot='end'></IonCheckbox>
+                                        </IonItem>
+                                        <IonItemOptions side='end'>
+                                            <IonItemOption onClick={() => slideDelete(task._id)} color='danger'>
+                                            <IonIcon slot='icon-only' icon={trash}></IonIcon>
+                                            </IonItemOption>
+                                        </IonItemOptions>
+                                    </IonItemSliding>
+                                )
+                            }
+                        })}
+                    </IonList>
+                )
+            }}
+        </TaskContext.Consumer>
+        <TaskContext.Consumer>
                 {({tasks}) => {
                     return (
                         <IonList>
-                            <IonListHeader color='warning'>
+                            <IonListHeader color='success'>
                                 <IonLabel color='light'>
-                                    Incomplete
+                                    Complete
                                 </IonLabel>
                             </IonListHeader>
                             {tasks.map(task => {
-                                if (!task.completed) {
+                                if (task.completed) {
                                     return (
                                         <IonItemSliding key={task._id}>
                                             <IonItem>
                                                 <IonLabel>{task.title}</IonLabel>
-                                                <IonCheckbox aria-label='Label' slot='start'></IonCheckbox>
+                                                <IonCheckbox onIonChange={() => taskIncomplete(task)} aria-label='Label' slot='end' checked={true}></IonCheckbox>
                                             </IonItem>
                                             <IonItemOptions side='end'>
-                                                <IonItemOption color='danger'>
+                                                <IonItemOption color='danger' onClick={() => slideDelete(task._id)}>
                                                 <IonIcon slot='icon-only' icon={trash}></IonIcon>
                                                 </IonItemOption>
                                             </IonItemOptions>
@@ -37,7 +84,7 @@ const TaskList: React.FC = () => {
                     )
                 }}
             </TaskContext.Consumer>
-        </div>
+    </div>
     );
   };
   
