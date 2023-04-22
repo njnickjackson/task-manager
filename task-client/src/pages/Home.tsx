@@ -24,7 +24,7 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader className='taskHeader'>
         <IonToolbar color='success'>
           <IonTitle>Task List</IonTitle>
         </IonToolbar>

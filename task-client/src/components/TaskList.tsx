@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import TaskContext from '../contexts/TaskContext';
 import { IonCheckbox, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonListHeader } from '@ionic/react';
 import { trash } from 'ionicons/icons';
+import './TaskList.css';
 
 const TaskList: React.FC = () => {
     let { deleteTask, editTask } = useContext(TaskContext);
@@ -23,13 +24,13 @@ const TaskList: React.FC = () => {
     }
 
     return (
-    <div>
+    <div className='test'>
         <TaskContext.Consumer>
             {({tasks}) => {
                 return (
                     <IonList>
                         <IonListHeader color='warning'>
-                            <IonLabel color='light'>
+                            <IonLabel className='taskLabel' color='light'>
                                 Incomplete
                             </IonLabel>
                         </IonListHeader>
@@ -59,7 +60,7 @@ const TaskList: React.FC = () => {
                     return (
                         <IonList>
                             <IonListHeader color='success'>
-                                <IonLabel color='light'>
+                                <IonLabel className='taskLabel' color='light'>
                                     Complete
                                 </IonLabel>
                             </IonListHeader>
