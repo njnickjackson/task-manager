@@ -5,7 +5,7 @@ import TaskContext from "./TaskContext";
 export const TaskProvider = (props) => {
 
     const [ tasks, setTasks ] = useState([]);
-    const baseUrl = "http://localhost:3001/tasks/";
+    const baseUrl = "http://localhost:4000/api/tasks/";
 
     useEffect(() => {
         async function fetchData() {
